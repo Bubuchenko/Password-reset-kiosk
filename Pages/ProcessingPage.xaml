@@ -1,13 +1,14 @@
-﻿<Page x:Class="MSA_password_kiosk_software.Pages.ProcessingPage"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="clr-namespace:MSA_password_kiosk_software.Controls" x:Class="MSA_password_kiosk_software.Pages.ProcessingPage" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="ProcessingPage" Height="720" Width="1280">
 
     <Grid Width="1280" Height="720">
-        
+        <Controls:RoundProgressbar x:Name="progressBar" Margin="424,143" Height="Auto" Width="Auto"/>
     </Grid>
 </Page>

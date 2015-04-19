@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CoreClassLib;
+using MSA_password_kiosk_software.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,53 @@ namespace MSA_password_kiosk_software
         public HomePage()
         {
             InitializeComponent();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            while(true)
+            {
+                if(!InputBox.IsFocused)
+                {
+                    InputBox.Focus();
+                }
+
+                await Task.Delay(50);
+            }
+        }
+
+        private void InputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                this.NavigationService.Navigate(new ProcessingPage("123"));
+            }
+
+            //Shortcuts to enter and leave fullscreen mode
+            if (e.Key == Key.End)
+            {
+                
+            }
+            if (e.Key == Key.Home)
+            {
+                
+            }
+        }
+
+        private void InputReceived(string input)
+        {
+            InputBox.Clear();
+
+            //If input is valid, go to the next page
+            if(Core.ValidateInput(input))
+            {
+                this.NavigationService.Navigate(new ProcessingPage(input));
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ProcessingPage("123"));
         }
     }
 }

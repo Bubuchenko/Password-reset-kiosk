@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreClassLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,28 @@ namespace MSA_password_kiosk_software.Pages
     /// </summary>
     public partial class ProcessingPage : Page
     {
-        public ProcessingPage()
+        private bool Successful { get; set; }
+
+        public ProcessingPage(string input)
         {
             InitializeComponent();
+            ProcessRequest(input);
+        }
+
+        private async void ProcessRequest(string input)
+        {
+            progressBar.AnimateCircleAngle(0, 100, 5);
+            //Task task = Core.ResetPassword(input, null);
+
+            Task task = resetpassword();
+
+            
+        }
+
+        async Task<int> resetpassword()
+        {
+            await Task.Delay(5000);
+            return 2;
         }
     }
 }
