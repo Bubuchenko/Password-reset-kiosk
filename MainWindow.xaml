@@ -1,0 +1,9 @@
+﻿<Window x:Class="MSA_password_kiosk_software.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid Background="#FF1A1A1A">
+        <Frame x:Name="MainFrame" Content="" Source="/MSA password kiosk software;component/Pages/HomePage.xaml" NavigationUIVisibility="Hidden"/>
+
+    </Grid>
+</Window>
