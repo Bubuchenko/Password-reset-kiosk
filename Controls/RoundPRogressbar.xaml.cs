@@ -50,6 +50,7 @@ namespace MSA_password_kiosk_software.Controls
             set
             {
                 statusLabel.Content = value;
+                statusLabel.Margin = new Thickness(grid.ActualWidth / 2 - statusLabel.ActualWidth / 2, 0, 0, 0);
                 _Status = value;
             }
         }
@@ -84,11 +85,32 @@ namespace MSA_password_kiosk_software.Controls
             da.Completed += (sender, e) =>
             {
                 AnimateCircleThickness(5, 15);
-                Status = "Een ogenblik geduld...";
+                Status = "Verwerken";
             };
 
-            Status = "";
+            Status = "Een ogenblik geduld";
+            AnimateLabelPeriods(statusLabel);
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.EndAngleProperty, da);
+        }
+
+        private bool DotsAnimated = false;
+        public async void AnimateLabelPeriods(Label label, int intervalInMilliseconds = 650)
+        {
+            DotsAnimated = true;
+            while (DotsAnimated)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    await Task.Delay(intervalInMilliseconds);
+                    label.Content += ".";
+                }
+                label.Content = label.Content.ToString().Split('.')[0];
+            }
+        }
+
+        private void StopLabelPeriodAnimation()
+        {
+            DotsAnimated = false;
         }
 
         public void AnimateCircleThickness(double widthBefore, double widthAfter)
