@@ -1,0 +1,23 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="MSA_password_kiosk_software.Controls.SmileyControl" 
+             mc:Ignorable="d" Height="222.078" Width="194.805">
+
+    <Grid HorizontalAlignment="Left" Width="290" Height="275" VerticalAlignment="Top">
+        <Rectangle x:Name="leftEye" Fill="#FF05B815" HorizontalAlignment="Left" Height="79" Margin="56,16,0,0" Stroke="Black" VerticalAlignment="Top" Width="17" StrokeEndLineCap="Round" StrokeStartLineCap="Round" RadiusX="35" StrokeDashCap="Round" StrokeThickness="0"/>
+        <Rectangle x:Name="rightEye" Fill="#FF05B815" HorizontalAlignment="Left" Height="79" Margin="113,16,0,0" Stroke="Black" VerticalAlignment="Top" Width="17" StrokeEndLineCap="Round" StrokeStartLineCap="Round" RadiusX="35" StrokeDashCap="Round" StrokeThickness="0"/>
+        <ed:Arc x:Name="Mouth" ArcThickness="0" ArcThicknessUnit="Pixel" EndAngle="90" Fill="#FF05B815" HorizontalAlignment="Left" Height="217" Margin="-16,-29,0,0" Stretch="None" Stroke="#FF05B815" StrokeThickness="11" StartAngle="0" VerticalAlignment="Top" Width="217" RenderTransformOrigin="0.81,0.184" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+            <ed:Arc.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-225"/>
+                    <TranslateTransform X="-66.324" Y="164.561"/>
+                </TransformGroup>
+            </ed:Arc.RenderTransform>
+        </ed:Arc>
+    </Grid>
+</UserControl>

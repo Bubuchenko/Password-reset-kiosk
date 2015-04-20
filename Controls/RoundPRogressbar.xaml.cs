@@ -55,6 +55,25 @@ namespace MSA_password_kiosk_software.Controls
             }
         }
 
+        public void AnimateCircleColor(Color NewColor)
+        {
+            SolidColorBrush OldColor = new SolidColorBrush(BrushToColor(ProgressGraphic.Stroke));
+            ProgressGraphic.Stroke = OldColor;
+
+            ColorAnimation ca = new ColorAnimation(OldColor.Color, NewColor, TimeSpan.FromMilliseconds(1000));
+            
+            SineEase ease = new SineEase();
+            ca.EasingFunction = ease;
+
+            OldColor.BeginAnimation(SolidColorBrush.ColorProperty, ca);
+        }
+
+        private Color BrushToColor(Brush brush)
+        {
+            SolidColorBrush newBrush = (SolidColorBrush)brush;
+            return newBrush.Color;
+        }
+
         //Function that animates the circle to a certain state
         private void AnimateCircleAngle(double PercentBefore, double PercentAfter)
         {
@@ -113,11 +132,13 @@ namespace MSA_password_kiosk_software.Controls
             DotsAnimated = false;
         }
 
-        public void AnimateCircleThickness(double widthBefore, double widthAfter)
+        public void AnimateCircleThickness(double widthBefore, double widthAfter, bool RepeatForever = true, bool AutoReverse = true)
         {
             DoubleAnimation da = new DoubleAnimation(widthBefore, widthAfter, TimeSpan.FromMilliseconds(700));
-            da.AutoReverse = true;
-            da.RepeatBehavior = RepeatBehavior.Forever;
+            da.AutoReverse = AutoReverse;
+
+            if(RepeatForever)
+                da.RepeatBehavior = RepeatBehavior.Forever;
 
             SineEase ease = new SineEase();
             da.EasingFunction = ease;
@@ -127,9 +148,25 @@ namespace MSA_password_kiosk_software.Controls
 
         public void StopAnimations()
         {
-            ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.StrokeThicknessProperty, null);
+            DoubleAnimation da = new DoubleAnimation(ProgressGraphic.StrokeThickness, ProgressGraphic.StrokeThickness + 2, TimeSpan.FromMilliseconds(700));
+            ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.StrokeThicknessProperty, da);
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.StartAngleProperty, null);
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.EndAngleProperty, null);
+            ProgressGraphic.EndAngle = 360; // Keep it full
+
+            AnimateCircleThickness(ProgressGraphic.StrokeThickness, ProgressGraphic.StrokeThickness + 5, false, false);
+            FadeOutStatusLabel();
+        }
+
+        private void FadeControlToOpacity(UIElement element, double newOpacity)
+        {
+            DoubleAnimation da = new DoubleAnimation(element.Opacity, newOpacity, TimeSpan.FromMilliseconds(1000));
+            element.BeginAnimation(UIElement.OpacityProperty, da);
+        }
+
+        public void FadeOutStatusLabel()
+        {
+            FadeControlToOpacity(statusLabel, 0);
         }
 
         public RoundProgressbar()

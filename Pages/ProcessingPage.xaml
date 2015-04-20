@@ -9,6 +9,6 @@
 	Title="ProcessingPage" Height="720" Width="1280">
 
     <Grid Width="1280" Height="720">
-        <Controls:RoundProgressbar x:Name="progressBar" Margin="424,143" Height="Auto" Width="Auto"/>
+        <Controls:RoundProgressbar x:Name="progressBar" Margin="424,143" Height="Auto" Width="Auto" Value="100"/>
     </Grid>
 </Page>

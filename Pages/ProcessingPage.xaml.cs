@@ -34,14 +34,35 @@ namespace MSA_password_kiosk_software.Pages
             progressBar.AnimateCircleAngle(0, 100, 5);
             //Task task = Core.ResetPassword(input, null);
 
-            Task task = resetpassword();
+            Task<int> task = resetpassword();
+            await task;
 
-            
+            progressBar.StopAnimations();
+            DisplayResult(task.Result);
+        }
+
+        private void DisplayResult(int returnValue)
+        {
+            switch(returnValue)
+            {
+                case 1:
+                    progressBar.AnimateCircleColor(Colors.Green);
+                    break;
+                case 2:
+                    progressBar.AnimateCircleColor(Colors.Green);
+                    break;
+                case 3:
+                    progressBar.AnimateCircleColor(Colors.Green);
+                    break;
+                case 4:
+                    progressBar.AnimateCircleColor(Colors.Green);
+                    break;
+            }
         }
 
         async Task<int> resetpassword()
         {
-            await Task.Delay(5000);
+            await Task.Delay(10000);
             return 2;
         }
     }

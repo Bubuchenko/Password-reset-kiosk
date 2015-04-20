@@ -46,16 +46,6 @@ namespace MSA_password_kiosk_software
             {
                 this.NavigationService.Navigate(new ProcessingPage("123"));
             }
-
-            //Shortcuts to enter and leave fullscreen mode
-            if (e.Key == Key.End)
-            {
-                
-            }
-            if (e.Key == Key.Home)
-            {
-                
-            }
         }
 
         private void InputReceived(string input)

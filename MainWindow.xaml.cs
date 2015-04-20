@@ -23,6 +23,33 @@ namespace MSA_password_kiosk_software
         public MainWindow()
         {
             InitializeComponent();
+            this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
+        }
+
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            //Shortcuts to enter and leave fullscreen mode
+            if (e.Key == Key.Home)
+            {
+                this.WindowStyle = System.Windows.WindowStyle.None;
+                this.Topmost = true;
+                this.WindowState = System.Windows.WindowState.Maximized;
+            }
+            if (e.Key == Key.End)
+            {
+                this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
+                this.Topmost = false;
+                this.WindowState = System.Windows.WindowState.Normal;
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void MainFrame_KeyDown(object sender, KeyEventArgs e)
+        {
         }
     }
 }

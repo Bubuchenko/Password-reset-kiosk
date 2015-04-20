@@ -3,3 +3,8 @@ G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\bin\De
 G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.csprojResolveAssemblyReference.cache
 G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.dll
 G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.pdb
+C:\Users\Bubuchenko\Documents\GitHub\Password-reset-kiosk\CoreClassLib\bin\Debug\CoreClassLib.dll
+C:\Users\Bubuchenko\Documents\GitHub\Password-reset-kiosk\CoreClassLib\bin\Debug\CoreClassLib.pdb
+C:\Users\Bubuchenko\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Debug\CoreClassLib.csprojResolveAssemblyReference.cache
+C:\Users\Bubuchenko\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Debug\CoreClassLib.dll
+C:\Users\Bubuchenko\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Debug\CoreClassLib.pdb
