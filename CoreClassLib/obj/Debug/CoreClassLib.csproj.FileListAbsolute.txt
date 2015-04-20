@@ -1,0 +1,5 @@
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\bin\Debug\CoreClassLib.dll
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\bin\Debug\CoreClassLib.pdb
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.csprojResolveAssemblyReference.cache
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.dll
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\CoreClassLib\obj\Debug\CoreClassLib.pdb
