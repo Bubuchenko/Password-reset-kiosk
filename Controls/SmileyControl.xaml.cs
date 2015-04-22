@@ -20,8 +20,50 @@ namespace MSA_password_kiosk_software.Controls
     /// </summary>
     public partial class SmileyControl : UserControl
     {
+        private Color _FaceColor;
 
-        public Color FaceColor { get; set; }
+        public Color FaceColor
+        {
+            get { return _FaceColor; }
+            set
+            {
+                _FaceColor = value; 
+            }
+        }
+        
+
+        private State _EmotionState;
+
+        public State EmotionState
+        {
+            get { return _EmotionState; }
+            set
+            {
+                displayEmotion(value);
+                _EmotionState = value;
+            }
+        }
+
+        public void displayEmotion(State state)
+        {
+            switch (state)
+            {
+                case State.Sad:
+                    faceImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/sad.png"));
+                    RoundProgressbar.FadeControlToOpacity(faceImage, 1);
+                    break;
+                case State.Neutral:
+                    faceImage.Source = new BitmapImage(new Uri("Pack://application:,,,/Resources/neutral.png"));
+                    FaceColor = Colors.Yellow;
+                    RoundProgressbar.FadeControlToOpacity(faceImage, 1);
+                    break;
+                case State.Happy:
+                    faceImage.Source = new BitmapImage(new Uri("Pack://application:,,,/Resources/happy.png"));
+                    FaceColor = Colors.Green;
+                    RoundProgressbar.FadeControlToOpacity(faceImage, 1);
+                    break;
+            }
+        }
 
         public SmileyControl()
         {

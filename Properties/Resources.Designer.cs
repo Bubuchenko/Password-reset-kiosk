@@ -63,9 +63,29 @@ namespace MSA_password_kiosk_software.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap smiley {
+        internal static System.Drawing.Bitmap happy {
             get {
-                object obj = ResourceManager.GetObject("smiley", resourceCulture);
+                object obj = ResourceManager.GetObject("happy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap neutral {
+            get {
+                object obj = ResourceManager.GetObject("neutral", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sad {
+            get {
+                object obj = ResourceManager.GetObject("sad", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

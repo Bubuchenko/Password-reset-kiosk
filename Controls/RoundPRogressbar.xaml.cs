@@ -50,17 +50,18 @@ namespace MSA_password_kiosk_software.Controls
             set
             {
                 statusLabel.Content = value;
+                statusLabel.Width = Double.NaN;
                 statusLabel.Margin = new Thickness(grid.ActualWidth / 2 - statusLabel.ActualWidth / 2, 0, 0, 0);
                 _Status = value;
             }
         }
 
-        public void AnimateCircleColor(Color NewColor)
+        public void AnimateCircleColor(Color NewColor, int timespan = 1000)
         {
             SolidColorBrush OldColor = new SolidColorBrush(BrushToColor(ProgressGraphic.Stroke));
             ProgressGraphic.Stroke = OldColor;
 
-            ColorAnimation ca = new ColorAnimation(OldColor.Color, NewColor, TimeSpan.FromMilliseconds(1000));
+            ColorAnimation ca = new ColorAnimation(OldColor.Color, NewColor, TimeSpan.FromMilliseconds(timespan));
             
             SineEase ease = new SineEase();
             ca.EasingFunction = ease;
@@ -90,25 +91,31 @@ namespace MSA_password_kiosk_software.Controls
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.EndAngleProperty, da);
         }
 
+
         //Function that animates the circle to a certain state with a certain timing
-        public void AnimateCircleAngle(double PercentBefore, double PercentAfter, double seconds)
+        public void AnimateCircleAngle(double PercentBefore, double PercentAfter, double seconds, bool initialAnimation = true, bool useEase = true)
         {
             //We multiply the percentage by 3.6 because a full circle is 360 degrees, divide 360 by 100 and you get 3.6
             //So half a circle would be 50(%) * 3.6 = 180 degrees, half a circle. 
             DoubleAnimation da = new DoubleAnimation(PercentBefore * 3.6, PercentAfter * 3.6, TimeSpan.FromSeconds(seconds));
 
-            SineEase ease = new SineEase();
-            da.EasingFunction = ease;
-
-
-            da.Completed += (sender, e) =>
+            if (useEase)
             {
-                AnimateCircleThickness(5, 15);
-                Status = "Verwerken";
-            };
+                SineEase ease = new SineEase();
+                da.EasingFunction = ease;
+            }
 
-            Status = "Een ogenblik geduld";
-            AnimateLabelPeriods(statusLabel);
+            if (initialAnimation)
+            {
+                da.Completed += (sender, e) =>
+                {
+                    AnimateCircleThickness(5, 15);
+                    Status = "Verwerken";
+                };
+
+                Status = "Een ogenblik geduld";
+                AnimateLabelPeriods(statusLabel);
+            }
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.EndAngleProperty, da);
         }
 
@@ -148,17 +155,17 @@ namespace MSA_password_kiosk_software.Controls
 
         public void StopAnimations()
         {
-            DoubleAnimation da = new DoubleAnimation(ProgressGraphic.StrokeThickness, ProgressGraphic.StrokeThickness + 2, TimeSpan.FromMilliseconds(700));
+            DoubleAnimation da = new DoubleAnimation(ProgressGraphic.StrokeThickness, ProgressGraphic.StrokeThickness, TimeSpan.FromMilliseconds(700));
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.StrokeThicknessProperty, da);
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.StartAngleProperty, null);
             ProgressGraphic.BeginAnimation(Microsoft.Expression.Shapes.Arc.EndAngleProperty, null);
-            ProgressGraphic.EndAngle = 360; // Keep it full
+            ProgressGraphic.EndAngle = 360; // To keep it full
 
-            AnimateCircleThickness(ProgressGraphic.StrokeThickness, ProgressGraphic.StrokeThickness + 5, false, false);
-            FadeOutStatusLabel();
+            AnimateCircleThickness(ProgressGraphic.StrokeThickness, 5, false, false);
+            statusLabel.Opacity = 0;
         }
 
-        private void FadeControlToOpacity(UIElement element, double newOpacity)
+        public static void FadeControlToOpacity(UIElement element, double newOpacity)
         {
             DoubleAnimation da = new DoubleAnimation(element.Opacity, newOpacity, TimeSpan.FromMilliseconds(1000));
             element.BeginAnimation(UIElement.OpacityProperty, da);
@@ -173,6 +180,11 @@ namespace MSA_password_kiosk_software.Controls
         {
             InitializeComponent();
             Value = 0;
+        }
+
+        private void face_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using CoreClassLib;
+using MSA_password_kiosk_software.Controls;
 using MSA_password_kiosk_software.Pages;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace MSA_password_kiosk_software
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            grid.Opacity = 0;
+            RoundProgressbar.FadeControlToOpacity(grid, 1);
+
             while(true)
             {
                 if(!InputBox.IsFocused)
@@ -44,7 +48,7 @@ namespace MSA_password_kiosk_software
         {
             if(e.Key == Key.Enter)
             {
-                this.NavigationService.Navigate(new ProcessingPage("123"));
+                this.NavigationService.Navigate(new ProcessingPage("20523"));
             }
         }
 

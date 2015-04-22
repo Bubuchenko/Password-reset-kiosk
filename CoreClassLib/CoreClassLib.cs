@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.DirectoryServices;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,9 @@ namespace CoreClassLib
 
         public static async Task<int> ResetPassword(string studentNummer, string password)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             try
             {
                 string voornaam = "";
@@ -63,6 +67,8 @@ namespace CoreClassLib
                             //If user doesn't exist
                             if(voornaam == "")
                             {
+                                if (sw.Elapsed.Seconds < 5)
+                                    await Task.Delay(5000);
                                 return 1;
                             }
 
@@ -86,6 +92,8 @@ namespace CoreClassLib
                             if (passwordResetCount >= MaxResetCount)
                             {
                                 writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord niet kunnen wijzigen. Reset limiet bereikt.", leerlingnaam, studentNummer));
+                                if (sw.Elapsed.Seconds < 5)
+                                    await Task.Delay(5000);
                                 return 2;
                             }
 
@@ -107,8 +115,10 @@ namespace CoreClassLib
                             uEntry.CommitChanges();
                             uEntry.Close();
 
-                            writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd", leerlingnaam, studentNummer));
+                            writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd (seconden: {2})", leerlingnaam, studentNummer, sw.Elapsed.Seconds));
 
+                            if (sw.Elapsed.Seconds < 5)
+                                await Task.Delay(5000);
                             return 3;
                         }
                     }
@@ -117,8 +127,10 @@ namespace CoreClassLib
             catch(Exception ex)
             {
                 writeErrorLog(ex);
-                return 4;
             }
+            if (sw.Elapsed.Seconds < 5)
+                await Task.Delay(5000);
+            return 4;
         }
 
         //Function that makes sure the read barcode is correct
@@ -187,5 +199,14 @@ namespace CoreClassLib
         {
             return DateTime.Now.ToString("G");
         }
+    }
+
+    public static class Texts
+    {
+        public static string SuccessMessage = "Je wachtwoord is succesvol hersteld, pak een briefje.";
+        public static string ExceededLimitFailMessage = "Je hebt je wachtwoord te vaak hersteld, meld je bij systeembeheer.";
+        public static string UserNotFoundMessage = "De opgegeven gebruiker komt niet in het systeem voor.";
+        public static string NoConnectErrorMessage = "Kon geen verbinding maken met de server.";
+        public static string DisappearMessage = "Dit scherm verdwijnt in % seconden.";
     }
 }

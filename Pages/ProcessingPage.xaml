@@ -6,9 +6,11 @@
       xmlns:Controls="clr-namespace:MSA_password_kiosk_software.Controls" x:Class="MSA_password_kiosk_software.Pages.ProcessingPage" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="ProcessingPage" Height="720" Width="1280">
+	Title="ProcessingPage" Height="720" Width="1280" Loaded="Page_Loaded">
 
-    <Grid Width="1280" Height="720">
-        <Controls:RoundProgressbar x:Name="progressBar" Margin="424,143" Height="Auto" Width="Auto" Value="100"/>
+    <Grid x:Name="grid" Width="1280" Height="720">
+        <Controls:RoundProgressbar x:Name="progressBar" Margin="424,83,424,203" Height="434" Width="432" Value="100"/>
+        <Label x:Name="resultLabel" Content="Message of the result is displayed here" Margin="0,552,0,105" FontSize="35" FontFamily="Roboto" Foreground="Green" HorizontalContentAlignment="Center" FontWeight="Thin" VerticalContentAlignment="Center" Padding="5,0,5,5" Opacity="0"/>
+        <Label x:Name="disappearMessage" Content="Disappear message is displayed here" Margin="0,615,0,48" FontSize="25" FontFamily="Roboto" Foreground="#FF979797" HorizontalContentAlignment="Center" FontWeight="Thin" VerticalContentAlignment="Center" Padding="5,0,5,5" Opacity="0"/>
     </Grid>
 </Page>
