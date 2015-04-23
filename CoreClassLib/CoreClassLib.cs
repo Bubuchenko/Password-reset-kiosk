@@ -81,7 +81,6 @@ namespace CoreClassLib
                                 uEntry.Properties["Description"].Value = "0";
                             }
 
-
                             //If password count field is empty, (never reset before) set it to 0 at least
                             if (!IsDigitsOnly(passwordResetCount.ToString()))
                             {

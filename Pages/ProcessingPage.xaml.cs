@@ -34,11 +34,10 @@ namespace MSA_password_kiosk_software.Pages
 
             //Set settings manually for debugging
             Core.FinalScreenShowTime = 15;
-            Core.ActivityFile = "activity.txt";
             Core.BasePassword = "Welkom123";
-            Core.ErrorFile = "Error.txt";
-            Core.LDAP_URL = "LDAP://mco.local";
+            Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
             Core.MaxResetLimit = true;
+            Core.MaxResetCount = 5;
             Core.UserIDLength = 5;
             Core.RandomPassword = true;
         }
@@ -48,9 +47,9 @@ namespace MSA_password_kiosk_software.Pages
         {
             progressBar.AnimateCircleAngle(0, 100, 5);
 
-            //var taskResult = await Task.Run(() => Core.ResetPassword(input, null));
+            var taskResult = await Task.Run(() => Core.ResetPassword(input, null));
 
-            var taskResult = await Task.Run(() => resetpassword());
+            //var taskResult = await Task.Run(() => resetpassword());
             progressBar.StopAnimations();
             DisplayResult(taskResult);
         }
@@ -128,7 +127,7 @@ namespace MSA_password_kiosk_software.Pages
             return r.Next(1, 5);
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             grid.Opacity = 0;
             RoundProgressbar.FadeControlToOpacity(grid, 1);

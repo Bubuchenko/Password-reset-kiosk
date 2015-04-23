@@ -50,8 +50,7 @@ namespace MSA_password_kiosk_software.Controls
             set
             {
                 statusLabel.Content = value;
-                statusLabel.Width = Double.NaN;
-                statusLabel.Margin = new Thickness(grid.ActualWidth / 2 - statusLabel.ActualWidth / 2, 0, 0, 0);
+                //statusLabel.Margin = new Thickness((grid.ActualWidth / 2) - (statusLabel.ActualWidth / 2), 0, 0, 0);
                 _Status = value;
             }
         }
@@ -110,7 +109,7 @@ namespace MSA_password_kiosk_software.Controls
                 da.Completed += (sender, e) =>
                 {
                     AnimateCircleThickness(5, 15);
-                    Status = "Verwerken";
+                    Status = "Aan het verwerken";
                 };
 
                 Status = "Een ogenblik geduld";

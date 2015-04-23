@@ -1,0 +1,4 @@
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.dll
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.pdb
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
+G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
