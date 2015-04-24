@@ -48,7 +48,7 @@ namespace MSA_password_kiosk_software
         {
             if(e.Key == Key.Enter)
             {
-                this.NavigationService.Navigate(new ProcessingPage("20523"));
+                this.NavigationService.Navigate(new ProcessingPage(InputBox.Text));
             }
         }
 
@@ -61,11 +61,6 @@ namespace MSA_password_kiosk_software
             {
                 this.NavigationService.Navigate(new ProcessingPage(input));
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new ProcessingPage("123"));
         }
     }
 }

@@ -39,21 +39,20 @@ namespace MSA_password_kiosk_software.Pages
             Core.MaxResetLimit = true;
             Core.MaxResetCount = 5;
             Core.UserIDLength = 5;
-            Core.RandomPassword = true;
+            Core.RandomPassword = false;
+            Core.UsePrinter = false;
         }
 
 
         private async void ProcessRequest(string input)
         {
-            progressBar.AnimateCircleAngle(0, 100, 5);
-
+            progressBar.AnimateCircleAngle(0, 100, 2);
             var taskResult = await Task.Run(() => Core.ResetPassword(input, null));
 
             //var taskResult = await Task.Run(() => resetpassword());
             progressBar.StopAnimations();
             DisplayResult(taskResult);
         }
-
 
         private void DisplayResult(int returnValue)
         {

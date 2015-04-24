@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing.Printing;
+using System.Drawing;
 
 namespace CoreClassLib
 {
@@ -18,6 +20,7 @@ namespace CoreClassLib
         public static bool MaxResetLimit { get; set; }
         public static int MaxResetCount { get; set; }
         public static int UserIDLength { get; set; }
+        public static bool UsePrinter { get; set; }
 
 
         //Text files for storing configurations and usage activities
@@ -67,8 +70,8 @@ namespace CoreClassLib
                             //If user doesn't exist
                             if(voornaam == "")
                             {
-                                if (sw.Elapsed.Seconds < 5)
-                                    await Task.Delay(5000);
+                                if (sw.Elapsed.Seconds < 2)
+                                    await Task.Delay(2000);
                                 return 1;
                             }
 
@@ -91,8 +94,8 @@ namespace CoreClassLib
                             if (passwordResetCount >= MaxResetCount)
                             {
                                 writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord niet kunnen wijzigen. Reset limiet bereikt.", leerlingnaam, studentNummer));
-                                if (sw.Elapsed.Seconds < 5)
-                                    await Task.Delay(5000);
+                                if (sw.Elapsed.Seconds < 2)
+                                    await Task.Delay(2000);
                                 return 2;
                             }
 
@@ -114,10 +117,14 @@ namespace CoreClassLib
                             uEntry.CommitChanges();
                             uEntry.Close();
 
+                            if (UsePrinter)
+                                Printer.Print(Texts.PrintedMessage(studentNummer, password));
+                            
+
                             writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd (seconden: {2})", leerlingnaam, studentNummer, sw.Elapsed.Seconds));
 
-                            if (sw.Elapsed.Seconds < 5)
-                                await Task.Delay(5000);
+                            if (sw.Elapsed.Seconds < 2)
+                                await Task.Delay(2000);
                             return 3;
                         }
                     }
@@ -207,5 +214,41 @@ namespace CoreClassLib
         public static string UserNotFoundMessage = "De opgegeven gebruiker komt niet in het systeem voor.";
         public static string NoConnectErrorMessage = "Kon geen verbinding maken met de server.";
         public static string DisappearMessage = "Dit scherm verdwijnt in % seconden.";
+
+        public static string PrintedMessage(string id, string password)
+        {
+            string newString = null;
+            newString += String.Format("Je inlognaam voor het netwerk is {0}", id) + Environment.NewLine;
+            newString += String.Format("Je nieuwe wachtwoord is ", password) + Environment.NewLine;
+            newString += "Bij het inloggen wordt je direct gevraagd om je wachtwoord te wijzigen." + Environment.NewLine;
+            newString += Environment.NewLine;
+            newString += "Het wachtwoord moet:" + Environment.NewLine;
+            newString += "-   Minimaal 7 tekens lang zijn." + Environment.NewLine;
+            newString += "-   Tenminste een hoofdletter, een kleine letter en een cijfer bevatten." + Environment.NewLine;
+            newString += "-   Mag niet (een deel van) je eigen naam bevatten" + Environment.NewLine;
+            return newString;
+        }
+    }
+
+    public static class Printer
+    {
+
+        public static void Print(string text)
+        {
+            PrintDocument p = new PrintDocument();
+            p.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
+                {
+                    e1.Graphics.DrawString(text, new Font("Calibri", 12), new SolidBrush(Color.Black), new RectangleF(0, 0, p.DefaultPageSettings.PrintableArea.Width, p.DefaultPageSettings.PrintableArea.Height));
+
+                };
+            try
+            {
+                p.Print();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception Occured While Printing", ex);
+            }
+        }
     }
 }
