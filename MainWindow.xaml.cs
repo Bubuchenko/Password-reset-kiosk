@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,7 @@ namespace MSA_password_kiosk_software
             this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
         }
 
+
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             //Shortcuts to enter and leave fullscreen mode
@@ -45,7 +47,6 @@ namespace MSA_password_kiosk_software
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
         private void MainFrame_KeyDown(object sender, KeyEventArgs e)

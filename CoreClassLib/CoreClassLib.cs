@@ -22,13 +22,13 @@ namespace CoreClassLib
         public static int UserIDLength { get; set; }
         public static bool UsePrinter { get; set; }
 
+        //Screen refresh in seconds
+        public static int ScreenProtectionRefreshInterval = 3600;
 
         //Text files for storing configurations and usage activities
         public static string ConfigFile = "config.ini";
         public static string ErrorFile = "ErrorLog.txt";
         public static string ActivityFile = "ActivityLog.txt";
-        
-
         
         //Password error scheme
 

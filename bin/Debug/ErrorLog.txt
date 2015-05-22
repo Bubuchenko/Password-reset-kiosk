@@ -1,6 +1,0 @@
-4/23/2015 4:52:58 PM >>    at System.DirectoryServices.DirectoryEntry.Bind(Boolean throwIfFail)
-   at System.DirectoryServices.DirectoryEntry.Bind()
-   at System.DirectoryServices.DirectoryEntry.get_AdsObject()
-   at System.DirectoryServices.DirectorySearcher.FindAll(Boolean findMoreThanOne)
-   at System.DirectoryServices.DirectorySearcher.FindOne()
-   at CoreClassLib.Core.<ResetPassword>d__0.MoveNext() in g:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\CoreClassLib.cs:line 60

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,15 +24,25 @@ namespace MSA_password_kiosk_software
     /// </summary>
     public partial class HomePage : Page
     {
+        //Store original color values
+        Brush HeaderOriginalColorA;
+        Brush HeaderOriginalColorB;
+        Brush OriginalBackgroundColor;
+
         public HomePage()
         {
             InitializeComponent();
+
+            HeaderOriginalColorA = TitleScreenText1.Foreground;
+            HeaderOriginalColorB = TitleScreenText2.Foreground;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             grid.Opacity = 0;
             RoundProgressbar.FadeControlToOpacity(grid, 1);
+            OriginalBackgroundColor = Window.GetWindow(this).Background;
+            ScreenSafetyRefresh();
 
             while(true)
             {
@@ -43,6 +54,26 @@ namespace MSA_password_kiosk_software
                 await Task.Delay(50);
             }
         }
+
+        async void ScreenSafetyRefresh()
+        {
+            while (true)
+            {
+                //n intervals
+                await Task.Delay(Core.ScreenProtectionRefreshInterval * 1000);
+                //Briefly change color to black and text to white
+                TitleScreenText1.Foreground = Brushes.Black;
+                TitleScreenText2.Foreground = Brushes.Black;
+                Window.GetWindow(this).Background = Brushes.White;
+                await Task.Delay(5000);
+                //Revert it back to the original color
+                TitleScreenText1.Foreground = HeaderOriginalColorA;
+                TitleScreenText2.Foreground = HeaderOriginalColorB;
+                Window.GetWindow(this).Background = OriginalBackgroundColor;
+                
+            }
+        }
+
 
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
         {
