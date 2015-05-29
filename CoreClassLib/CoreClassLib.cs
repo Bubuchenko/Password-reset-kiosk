@@ -20,6 +20,7 @@ namespace CoreClassLib
         public static bool MaxResetLimit { get; set; }
         public static int MaxResetCount { get; set; }
         public static int UserIDLength { get; set; }
+        public static int RFIDLength { get; set; }
         public static bool UsePrinter { get; set; }
 
         //Screen refresh in seconds
@@ -29,7 +30,9 @@ namespace CoreClassLib
         public static string ConfigFile = "config.ini";
         public static string ErrorFile = "ErrorLog.txt";
         public static string ActivityFile = "ActivityLog.txt";
-        
+        //NFC settings
+        public static string PCounterToolPath = @"PCOUNTER/ACCOUNT.EXE";
+
         //Password error scheme
 
         //Code 1 = User not found
@@ -41,7 +44,7 @@ namespace CoreClassLib
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-
+            
             try
             {
                 string voornaam = "";
@@ -52,6 +55,14 @@ namespace CoreClassLib
                 if(password == null)
                 {
                     password = GetPassword();
+                }
+
+                if(studentNummer == "")
+                {
+                    if (sw.Elapsed.Seconds < 2)
+                        await Task.Delay(2000);
+
+                    return 1;
                 }
 
                 using (DirectoryEntry dir = new DirectoryEntry(LDAP_URL)) //Instantiate dir entry and pass the domain
@@ -139,14 +150,49 @@ namespace CoreClassLib
             return 4;
         }
 
+        public static async Task<string> GetUsernameFromRFID(string RFIDTag)
+        {
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = PCounterToolPath;
+            cmd.StartInfo.Arguments = "dumpids";
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = true;
+            cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            cmd.Start();
+            string output = await cmd.StandardOutput.ReadToEndAsync();
+            cmd.WaitForExit();
+
+            Dictionary<string, string> UserRFIDPairs = new Dictionary<string, string>();
+            string[] pairs = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (string pair in pairs)
+            {
+                try //Dodge any out of range exceptions we don't really care about
+                {
+                    string Username = pair.Split(',')[0];
+                    string CardID = pair.Split(',')[1];
+                    //Store the Card ID as key and the username as value
+                    UserRFIDPairs.Add(CardID, Username);
+                }
+                catch { }
+            }
+
+            try
+            {
+                return UserRFIDPairs[RFIDTag];
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+
         //Function that makes sure the read barcode is correct
         public static bool ValidateInput(string input)
         {
             //Remove any new lines if there are any, which COULD be caused by the enter.
             input = input.Replace(Environment.NewLine, "");
-
-            if (input.Length != UserIDLength)
-                return false;
 
             if (!IsDigitsOnly(input))
                 return false;

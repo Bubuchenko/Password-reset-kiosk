@@ -1,0 +1,6 @@
+29-5-2015 14:47:47 >>    bij CoreClassLib.Core.<ResetPassword>d__0.MoveNext() in c:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\CoreClassLib.cs:regel 68
+29-5-2015 14:48:11 >>    bij CoreClassLib.Core.<ResetPassword>d__0.MoveNext() in c:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\CoreClassLib.cs:regel 68
+29-5-2015 14:57:19 >>    bij System.DirectoryServices.SearchResultCollection.ResultsEnumerator.MoveNext()
+   bij System.DirectoryServices.DirectorySearcher.FindOne()
+   bij CoreClassLib.Core.<ResetPassword>d__0.MoveNext() in c:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\CoreClassLib.cs:regel 66
+29-5-2015 15:01:51 >>    bij CoreClassLib.Core.<ResetPassword>d__0.MoveNext() in c:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\CoreClassLib.cs:regel 74
