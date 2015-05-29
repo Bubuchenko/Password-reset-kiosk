@@ -42,6 +42,9 @@ namespace MSA_password_kiosk_software.Pages
             Core.RFIDLength = 16;
             Core.RandomPassword = false;
             Core.UsePrinter = false;
+
+            //Hide the cursor
+            Mouse.OverrideCursor = Cursors.None;
         }
 
 

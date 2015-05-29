@@ -35,6 +35,9 @@ namespace MSA_password_kiosk_software
 
             HeaderOriginalColorA = TitleScreenText1.Foreground;
             HeaderOriginalColorB = TitleScreenText2.Foreground;
+
+            //Hide the cursor
+            Mouse.OverrideCursor = Cursors.None;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)

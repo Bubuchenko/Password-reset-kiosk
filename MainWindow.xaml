@@ -4,7 +4,7 @@
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="MSA_password_kiosk_software.MainWindow"
         Title="MainWindow" Height="720" Width="1280" KeyDown="Window_KeyDown" WindowStyle="None" WindowState="Maximized" Topmost="True" Background="#FF1A1A1A">
 	<Grid x:Name="grid">
-		<Frame x:Name="MainFrame" Content="" Source="/MSA password kiosk software;component/Pages/HomePage.xaml" NavigationUIVisibility="Hidden" KeyDown="MainFrame_KeyDown"/>
+		<Frame x:Name="MainFrame" Content="" Source="/MSA password kiosk software;component/Pages/HomePage.xaml" NavigationUIVisibility="Hidden" KeyDown="MainFrame_KeyDown" Cursor="None"/>
 
 		
 
