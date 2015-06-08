@@ -24,12 +24,13 @@ namespace CoreClassLib
         public static bool UsePrinter { get; set; }
 
         //Screen refresh in seconds
-        public static int ScreenProtectionRefreshInterval = 3600;
+        public static int ScreenProtectionRefreshInterval = 20;
 
         //Text files for storing configurations and usage activities
         public static string ConfigFile = "config.ini";
         public static string ErrorFile = "ErrorLog.txt";
         public static string ActivityFile = "ActivityLog.txt";
+
         //NFC settings
         public static string PCounterToolPath = @"PCOUNTER/ACCOUNT.EXE";
 
@@ -196,9 +197,7 @@ namespace CoreClassLib
 
             if (!IsDigitsOnly(input))
                 return false;
-
             return true;
-
         }
 
         private static string GetPassword()
@@ -236,7 +235,7 @@ namespace CoreClassLib
 
             }
         }
-        private static void writeErrorLog(Exception msg)
+        public static void writeErrorLog(Exception msg)
         {
             try
             {
@@ -293,7 +292,7 @@ namespace CoreClassLib
             }
             catch (Exception ex)
             {
-                throw new Exception("Exception Occured While Printing", ex);
+                Core.writeErrorLog(ex);
             }
         }
     }
