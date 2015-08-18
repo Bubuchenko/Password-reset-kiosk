@@ -264,11 +264,13 @@ namespace CoreClassLib
         public static string PrintedMessage(string id, string password)
         {
             string newString = null;
-            newString += String.Format("Je inlognaam voor het netwerk is {0}", id) + Environment.NewLine;
-            newString += String.Format("Je nieuwe wachtwoord is ", password) + Environment.NewLine;
+            newString += Environment.NewLine;
+            newString += Environment.NewLine;
+            newString += String.Format("Je inlognaam is: {0}", id) + Environment.NewLine;
+            newString += String.Format("Je nieuwe wachtwoord is: {0}", password) + Environment.NewLine;
             newString += "Bij het inloggen wordt je direct gevraagd om je wachtwoord te wijzigen." + Environment.NewLine;
             newString += Environment.NewLine;
-            newString += "Het wachtwoord moet:" + Environment.NewLine;
+            newString +=     "Het wachtwoord moet:" + Environment.NewLine;
             newString += "-   Minimaal 7 tekens lang zijn." + Environment.NewLine;
             newString += "-   Tenminste een hoofdletter, een kleine letter en een cijfer bevatten." + Environment.NewLine;
             newString += "-   Mag niet (een deel van) je eigen naam bevatten" + Environment.NewLine;
@@ -282,6 +284,15 @@ namespace CoreClassLib
         public static void Print(string text)
         {
             PrintDocument p = new PrintDocument();
+
+            //Print a header in bold
+            p.PrintPage += delegate(object sender1, PrintPageEventArgs e1)
+            {
+                e1.Graphics.DrawString("Je wachtwoord is gereset!", new Font("Calibri", 14, FontStyle.Bold), new SolidBrush(Color.Black), new RectangleF(0, 0, p.DefaultPageSettings.PrintableArea.Width, p.DefaultPageSettings.PrintableArea.Height));
+
+            };
+
+            //Print the rest of the body
             p.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
                 {
                     e1.Graphics.DrawString(text, new Font("Calibri", 12), new SolidBrush(Color.Black), new RectangleF(0, 0, p.DefaultPageSettings.PrintableArea.Width, p.DefaultPageSettings.PrintableArea.Height));

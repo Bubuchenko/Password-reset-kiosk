@@ -33,15 +33,15 @@ namespace MSA_password_kiosk_software.Pages
             Input = input;
 
             //Set settings manually for debugging
-            Core.FinalScreenShowTime = 15;
-            Core.BasePassword = "Welkom123";
+            Core.FinalScreenShowTime = 5;
+            Core.BasePassword = "Welkom";
             Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
             Core.MaxResetLimit = true;
             Core.MaxResetCount = 5;
             Core.UserIDLength = 5;
             Core.RFIDLength = 16;
-            Core.RandomPassword = false;
-            Core.UsePrinter = false;
+            Core.RandomPassword = true;
+            Core.UsePrinter = true;
 
             //Hide the cursor
             Mouse.OverrideCursor = Cursors.None;
