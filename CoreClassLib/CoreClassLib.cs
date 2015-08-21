@@ -39,6 +39,7 @@ namespace CoreClassLib
         //Code 2 = Reset limit exceeded
         //Code 3 = Success
         //Code 4 = Unknown error
+        //Code 5 = Account disabled
 
         public static async Task<int> ResetPassword(string studentNummer, string password)
         {
@@ -86,6 +87,15 @@ namespace CoreClassLib
                                 return 1;
                             }
 
+                            //Check if account is disabled
+                            if (!IsActive(uEntry))
+                            {
+                                if (sw.Elapsed.Seconds < 2)
+                                    await Task.Delay(2000);
+
+                                return 5;
+                            }
+
                             try
                             {
                                 passwordResetCount = int.Parse(uEntry.Properties["Description"].Value.ToString()); //Get users pass reset count, which is stored in description
@@ -120,10 +130,8 @@ namespace CoreClassLib
 
 
                             uEntry.Properties["LockOutTime"].Value = 0; //Unlock account
-
                             uEntry.Invoke("SetPassword", new object[] { password }); //Change the actual password
                             uEntry.Properties["pwdLastSet"].Value = 0; // Force user to change password at first logon
-
                             uEntry.Properties["Description"].Value = passwordResetCount + 1; //Increment users password reset count
                             uEntry.CommitChanges();
                             uEntry.Close();
@@ -136,6 +144,7 @@ namespace CoreClassLib
 
                             if (sw.Elapsed.Seconds < 2)
                                 await Task.Delay(2000);
+
                             return 3;
                         }
                     }
@@ -145,9 +154,19 @@ namespace CoreClassLib
             {
                 writeErrorLog(ex);
             }
+
             if (sw.Elapsed.Seconds < 5)
                 await Task.Delay(5000);
             return 4;
+        }
+
+        public static bool IsActive(DirectoryEntry de)
+        {
+            if (de.NativeGuid == null) return false;
+
+            int flags = (int)de.Properties["userAccountControl"].Value;
+
+            return !Convert.ToBoolean(flags & 0x0002);
         }
 
         public static async Task<string> GetUsernameFromRFID(string RFIDTag)
@@ -240,7 +259,7 @@ namespace CoreClassLib
         {
             try
             {
-                File.AppendAllText(ErrorFile, getDateTime() + " >> " + msg.StackTrace + Environment.NewLine);
+                File.AppendAllText(ErrorFile, getDateTime() + " >> " + msg.ToString() + Environment.NewLine);
             }
             catch
             {
@@ -259,6 +278,7 @@ namespace CoreClassLib
         public static string ExceededLimitFailMessage = "Je hebt je wachtwoord te vaak hersteld, meld je bij systeembeheer.";
         public static string UserNotFoundMessage = "De opgegeven gebruiker komt niet in het systeem voor.";
         public static string NoConnectErrorMessage = "Kon geen verbinding maken met de server.";
+        public static string AccountDisabledMessage = "Deze account is uitgeschakeld. Neem contact op met systeembeheer.";
         public static string DisappearMessage = "Dit scherm verdwijnt in % seconden.";
 
         public static string PrintedMessage(string id, string password)

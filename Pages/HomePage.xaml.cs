@@ -54,7 +54,7 @@ namespace MSA_password_kiosk_software
                     InputBox.Focus();
                 }
 
-                await Task.Delay(50);
+                await Task.Delay(500);
             }
         }
 
@@ -62,17 +62,24 @@ namespace MSA_password_kiosk_software
         {
             while (true)
             {
-                //n intervals
-                await Task.Delay(Core.ScreenProtectionRefreshInterval * 1000);
-                //Briefly change color to black and text to white
-                TitleScreenText1.Foreground = Brushes.Black;
-                TitleScreenText2.Foreground = Brushes.Black;
-                Window.GetWindow(this).Background = Brushes.White;
-                await Task.Delay(5000);
-                //Revert it back to the original color
-                TitleScreenText1.Foreground = HeaderOriginalColorA;
-                TitleScreenText2.Foreground = HeaderOriginalColorB;
-                Window.GetWindow(this).Background = OriginalBackgroundColor;
+                try
+                {
+                    //n intervals
+                    await Task.Delay(Core.ScreenProtectionRefreshInterval * 1000);
+                    //Briefly change color to black and text to white
+                    TitleScreenText1.Foreground = Brushes.Black;
+                    TitleScreenText2.Foreground = Brushes.Black;
+                    Window.GetWindow(this).Background = Brushes.White;
+                    await Task.Delay(5000);
+                    //Revert it back to the original color
+                    TitleScreenText1.Foreground = HeaderOriginalColorA;
+                    TitleScreenText2.Foreground = HeaderOriginalColorB;
+                    Window.GetWindow(this).Background = OriginalBackgroundColor;
+                }
+                catch
+                {
+                    //Avoid throwing error if it has to refresh but we're not on the current page
+                }
                 
             }
         }
@@ -82,13 +89,14 @@ namespace MSA_password_kiosk_software
         {
             if(e.Key == Key.Enter)
             {
-                this.NavigationService.Navigate(new ProcessingPage(InputBox.Text));
+                InputReceived(InputBox.Text);
             }
         }
 
         private void InputReceived(string input)
         {
             InputBox.Clear();
+            input = input.Trim();
 
             //If input is valid, go to the next page
             if(Core.ValidateInput(input))

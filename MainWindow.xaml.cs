@@ -27,7 +27,6 @@ namespace MSA_password_kiosk_software
             this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
         }
 
-
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             //Shortcuts to enter and leave fullscreen mode

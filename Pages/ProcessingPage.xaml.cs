@@ -50,6 +50,7 @@ namespace MSA_password_kiosk_software.Pages
 
         private async void ProcessRequest(string input)
         {
+            //Start the circle animation
             progressBar.AnimateCircleAngle(0, 100, 2);
 
             //If it's an RFID card get the username first
@@ -99,6 +100,13 @@ namespace MSA_password_kiosk_software.Pages
                     resultLabel.Foreground = Brushes.Red;
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
+                case 5:
+                    progressBar.AnimateCircleColor(Colors.Red, 300);
+                    progressBar.face.EmotionState = Controls.State.Sad;
+                    resultLabel.Content = Texts.AccountDisabledMessage;
+                    resultLabel.Foreground = Brushes.Red;
+                    RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
+                    break;
             }
             DisplayDisappearMessage();
         }
@@ -125,13 +133,6 @@ namespace MSA_password_kiosk_software.Pages
         private void GoBackToMainPage()
         {
             this.NavigationService.Navigate(new HomePage());
-        }
-
-        Random r = new Random();
-        async Task<int> resetpassword()
-        {
-            await Task.Delay(10000);
-            return r.Next(1, 5);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
