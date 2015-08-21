@@ -30,6 +30,7 @@ namespace CoreClassLib
         public static string ConfigFile = "config.ini";
         public static string ErrorFile = "ErrorLog.txt";
         public static string ActivityFile = "ActivityLog.txt";
+
         //NFC settings
         public static string PCounterToolPath = @"PCOUNTER/ACCOUNT.EXE";
 
@@ -43,9 +44,10 @@ namespace CoreClassLib
 
         public static async Task<int> ResetPassword(string studentNummer, string password)
         {
+            //Stopwatch is used to force the task to not be completed before atleast 2 seconds have passed, so the animation gets played regardless
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            
+
             try
             {
                 string voornaam = "";
@@ -53,17 +55,9 @@ namespace CoreClassLib
                 int passwordResetCount = 0;
 
                 //If no specific password is given, use the password from the config
-                if(password == null)
+                if (password == null)
                 {
                     password = GetPassword();
-                }
-
-                if(studentNummer == "")
-                {
-                    if (sw.Elapsed.Seconds < 2)
-                        await Task.Delay(2000);
-
-                    return 1;
                 }
 
                 using (DirectoryEntry dir = new DirectoryEntry(LDAP_URL)) //Instantiate dir entry and pass the domain
@@ -74,11 +68,20 @@ namespace CoreClassLib
                         search.PropertiesToLoad.Add("telephoneNumber"); //So we can use the "pager" property to search by student ID
                         SearchResult searchresult = search.FindOne();
 
+                        //User not found
+                        if (searchresult == null)
+                        {
+                            if (sw.Elapsed.Seconds < 2)
+                                await Task.Delay(2000);
+                            return 1;
+                        }
+
                         using (DirectoryEntry uEntry = searchresult.GetDirectoryEntry())
                         {
                             leerlingnaam = uEntry.Properties["givenName"].Value.ToString() + " " + uEntry.Properties["sn"].Value.ToString(); //Store full student name in string
                             voornaam = uEntry.Properties["givenName"].Value.ToString(); // Get students first name, for greeting message purposes
 
+<<<<<<< HEAD
                             //If user doesn't exist
                             if(voornaam == "")
                             {
@@ -96,6 +99,8 @@ namespace CoreClassLib
                                 return 5;
                             }
 
+=======
+>>>>>>> origin/master
                             try
                             {
                                 passwordResetCount = int.Parse(uEntry.Properties["Description"].Value.ToString()); //Get users pass reset count, which is stored in description
@@ -138,7 +143,7 @@ namespace CoreClassLib
 
                             if (UsePrinter)
                                 Printer.Print(Texts.PrintedMessage(studentNummer, password));
-                            
+
 
                             writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd (seconden: {2})", leerlingnaam, studentNummer, sw.Elapsed.Seconds));
 
@@ -150,14 +155,17 @@ namespace CoreClassLib
                     }
                 }
             }
-            catch(Exception ex)
+            catch // Unknown error
             {
-                writeErrorLog(ex);
+                return 4;
             }
+<<<<<<< HEAD
 
             if (sw.Elapsed.Seconds < 5)
                 await Task.Delay(5000);
             return 4;
+=======
+>>>>>>> origin/master
         }
 
         public static bool IsActive(DirectoryEntry de)
@@ -171,16 +179,26 @@ namespace CoreClassLib
 
         public static async Task<string> GetUsernameFromRFID(string RFIDTag)
         {
-            Process cmd = new Process();
-            cmd.StartInfo.FileName = PCounterToolPath;
-            cmd.StartInfo.Arguments = "dumpids";
-            cmd.StartInfo.UseShellExecute = false;
-            cmd.StartInfo.RedirectStandardOutput = true;
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            cmd.Start();
-            string output = await cmd.StandardOutput.ReadToEndAsync();
-            cmd.WaitForExit();
+            Process cmd;
+            string output = "";
+
+            try
+            {
+                cmd = new Process();
+                cmd.StartInfo.FileName = PCounterToolPath;
+                cmd.StartInfo.Arguments = "dumpids";
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.StartInfo.RedirectStandardOutput = true;
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                cmd.Start();
+                output = await cmd.StandardOutput.ReadToEndAsync();
+                cmd.WaitForExit();
+            }
+            catch(Exception ex)
+            {
+                writeErrorLog(ex);
+            }
 
             Dictionary<string, string> UserRFIDPairs = new Dictionary<string, string>();
             string[] pairs = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -206,18 +224,21 @@ namespace CoreClassLib
             }
         }
 
-
         //Function that makes sure the read barcode is correct
         public static bool ValidateInput(string input)
         {
             //Remove any new lines if there are any, which COULD be caused by the enter.
             input = input.Replace(Environment.NewLine, "");
 
+            //Something has to be entered
+            if (input.Length == 0)
+                return false;
+
+            //Only accept numeric values
             if (!IsDigitsOnly(input))
                 return false;
 
             return true;
-
         }
 
         private static string GetPassword()
@@ -255,7 +276,7 @@ namespace CoreClassLib
 
             }
         }
-        private static void writeErrorLog(Exception msg)
+        public static void writeErrorLog(Exception msg)
         {
             try
             {
@@ -277,8 +298,12 @@ namespace CoreClassLib
         public static string SuccessMessage = "Je wachtwoord is succesvol hersteld, pak een briefje.";
         public static string ExceededLimitFailMessage = "Je hebt je wachtwoord te vaak hersteld, meld je bij systeembeheer.";
         public static string UserNotFoundMessage = "De opgegeven gebruiker komt niet in het systeem voor.";
+<<<<<<< HEAD
         public static string NoConnectErrorMessage = "Kon geen verbinding maken met de server.";
         public static string AccountDisabledMessage = "Deze account is uitgeschakeld. Neem contact op met systeembeheer.";
+=======
+        public static string NoConnectErrorMessage = "Er is iets misgegaan, probeer het later nog eens.";
+>>>>>>> origin/master
         public static string DisappearMessage = "Dit scherm verdwijnt in % seconden.";
 
         public static string PrintedMessage(string id, string password)
@@ -324,7 +349,7 @@ namespace CoreClassLib
             }
             catch (Exception ex)
             {
-                throw new Exception("Exception Occured While Printing", ex);
+                Core.writeErrorLog(ex);
             }
         }
     }

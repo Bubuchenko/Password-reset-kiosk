@@ -33,8 +33,13 @@ namespace MSA_password_kiosk_software.Pages
             Input = input;
 
             //Set settings manually for debugging
+<<<<<<< HEAD
             Core.FinalScreenShowTime = 5;
             Core.BasePassword = "Welkom";
+=======
+            Core.FinalScreenShowTime = 7;
+            Core.BasePassword = "Welkom123";
+>>>>>>> origin/master
             Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
             Core.MaxResetLimit = true;
             Core.MaxResetCount = 5;
