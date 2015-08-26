@@ -50,7 +50,6 @@ namespace CoreClassLib
 
             try
             {
-                string voornaam = "";
                 string leerlingnaam = "";
                 int passwordResetCount = 0;
 
@@ -79,11 +78,9 @@ namespace CoreClassLib
                         using (DirectoryEntry uEntry = searchresult.GetDirectoryEntry())
                         {
                             leerlingnaam = uEntry.Properties["givenName"].Value.ToString() + " " + uEntry.Properties["sn"].Value.ToString(); //Store full student name in string
-                            voornaam = uEntry.Properties["givenName"].Value.ToString(); // Get students first name, for greeting message purposes
 
-<<<<<<< HEAD
                             //If user doesn't exist
-                            if(voornaam == "")
+                            if (leerlingnaam == "")
                             {
                                 if (sw.Elapsed.Seconds < 2)
                                     await Task.Delay(2000);
@@ -99,8 +96,6 @@ namespace CoreClassLib
                                 return 5;
                             }
 
-=======
->>>>>>> origin/master
                             try
                             {
                                 passwordResetCount = int.Parse(uEntry.Properties["Description"].Value.ToString()); //Get users pass reset count, which is stored in description
@@ -157,15 +152,10 @@ namespace CoreClassLib
             }
             catch // Unknown error
             {
+                writeActivityLog("----------------NOTIFICATION-------------------");
+                writeActivityLog("Server not available error, student number: " + studentNummer);
                 return 4;
             }
-<<<<<<< HEAD
-
-            if (sw.Elapsed.Seconds < 5)
-                await Task.Delay(5000);
-            return 4;
-=======
->>>>>>> origin/master
         }
 
         public static bool IsActive(DirectoryEntry de)
@@ -298,12 +288,8 @@ namespace CoreClassLib
         public static string SuccessMessage = "Je wachtwoord is succesvol hersteld, pak een briefje.";
         public static string ExceededLimitFailMessage = "Je hebt je wachtwoord te vaak hersteld, meld je bij systeembeheer.";
         public static string UserNotFoundMessage = "De opgegeven gebruiker komt niet in het systeem voor.";
-<<<<<<< HEAD
         public static string NoConnectErrorMessage = "Kon geen verbinding maken met de server.";
         public static string AccountDisabledMessage = "Deze account is uitgeschakeld. Neem contact op met systeembeheer.";
-=======
-        public static string NoConnectErrorMessage = "Er is iets misgegaan, probeer het later nog eens.";
->>>>>>> origin/master
         public static string DisappearMessage = "Dit scherm verdwijnt in % seconden.";
 
         public static string PrintedMessage(string id, string password)

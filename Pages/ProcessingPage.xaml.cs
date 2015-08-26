@@ -33,13 +33,8 @@ namespace MSA_password_kiosk_software.Pages
             Input = input;
 
             //Set settings manually for debugging
-<<<<<<< HEAD
             Core.FinalScreenShowTime = 5;
             Core.BasePassword = "Welkom";
-=======
-            Core.FinalScreenShowTime = 7;
-            Core.BasePassword = "Welkom123";
->>>>>>> origin/master
             Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
             Core.MaxResetLimit = true;
             Core.MaxResetCount = 5;
@@ -75,6 +70,12 @@ namespace MSA_password_kiosk_software.Pages
             //Code 2 = Reset limit exceeded
             //Code 3 = Success
             //Code 4 = Unknown error
+            //Code 5 = Account is disabled
+
+            //Red = Software error
+            //Orange = User error
+            //Green = ~Success!
+
             switch(returnValue)
             {
                 case 1: //User not found (sad)
@@ -106,10 +107,10 @@ namespace MSA_password_kiosk_software.Pages
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
                 case 5:
-                    progressBar.AnimateCircleColor(Colors.Red, 300);
-                    progressBar.face.EmotionState = Controls.State.Sad;
+                    progressBar.AnimateCircleColor(Colors.Orange, 300);
+                    progressBar.face.EmotionState = Controls.State.Neutral;
                     resultLabel.Content = Texts.AccountDisabledMessage;
-                    resultLabel.Foreground = Brushes.Red;
+                    resultLabel.Foreground = Brushes.Orange;
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
             }
