@@ -3,6 +3,7 @@ using MSA_password_kiosk_software.Controls;
 using MSA_password_kiosk_software.Pages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -87,7 +88,13 @@ namespace MSA_password_kiosk_software
 
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
+            //Shortcuts to exit the kiosk
+            if (e.Key == Key.Escape)
+            {
+                Process.Start("explorer.exe");
+                Environment.Exit(0);
+            }
+            if (e.Key == Key.Enter)
             {
                 InputReceived(InputBox.Text);
             }

@@ -8,3 +8,8 @@ C:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Re
 C:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
 C:\Users\l.pijlman.MCO\Documents\GitHub\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
 G:\Users\Alyssa\Documents\GitHub\MSA password kiosk software\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.csprojResolveAssemblyReference.cache
+C:\Users\l.pijlman\Source\Repos\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.csprojResolveAssemblyReference.cache
+C:\Users\l.pijlman\Source\Repos\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
+C:\Users\l.pijlman\Source\Repos\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
+C:\Users\l.pijlman\Source\Repos\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.dll
+C:\Users\l.pijlman\Source\Repos\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.pdb

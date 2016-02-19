@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing.Printing;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace CoreClassLib
 {
@@ -31,11 +32,7 @@ namespace CoreClassLib
         public static string ErrorFile = "ErrorLog.txt";
         public static string ActivityFile = "ActivityLog.txt";
 
-        //NFC settings
-        public static string PCounterToolPath = @"PCOUNTER/ACCOUNT.EXE";
-
         //Password error scheme
-
         //Code 1 = User not found
         //Code 2 = Reset limit exceeded
         //Code 3 = Success
@@ -67,7 +64,7 @@ namespace CoreClassLib
                         search.PropertiesToLoad.Add("telephoneNumber"); //So we can use the "pager" property to search by student ID
                         SearchResult searchresult = search.FindOne();
 
-                        //User not found
+                        //User not found or disabled
                         if (searchresult == null)
                         {
                             if (sw.Elapsed.Seconds < 2)
@@ -140,7 +137,7 @@ namespace CoreClassLib
                                 Printer.Print(Texts.PrintedMessage(studentNummer, password));
 
 
-                            writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd (seconden: {2})", leerlingnaam, studentNummer, sw.Elapsed.Seconds));
+                            writeActivityLog(String.Format("Leerling {0} met leerling nummer {1}, heeft wachtwoord gewijzigd (milliseconds: {2})", leerlingnaam, studentNummer, sw.Elapsed.Milliseconds));
 
                             if (sw.Elapsed.Seconds < 2)
                                 await Task.Delay(2000);
@@ -153,7 +150,7 @@ namespace CoreClassLib
             catch // Unknown error
             {
                 writeActivityLog("----------------NOTIFICATION-------------------");
-                writeActivityLog("Server not available error, student number: " + studentNummer);
+                writeActivityLog("Unknown error occured student number: " + studentNummer);
                 return 4;
             }
         }
@@ -165,53 +162,6 @@ namespace CoreClassLib
             int flags = (int)de.Properties["userAccountControl"].Value;
 
             return !Convert.ToBoolean(flags & 0x0002);
-        }
-
-        public static async Task<string> GetUsernameFromRFID(string RFIDTag)
-        {
-            Process cmd;
-            string output = "";
-
-            try
-            {
-                cmd = new Process();
-                cmd.StartInfo.FileName = PCounterToolPath;
-                cmd.StartInfo.Arguments = "dumpids";
-                cmd.StartInfo.UseShellExecute = false;
-                cmd.StartInfo.RedirectStandardOutput = true;
-                cmd.StartInfo.CreateNoWindow = true;
-                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                cmd.Start();
-                output = await cmd.StandardOutput.ReadToEndAsync();
-                cmd.WaitForExit();
-            }
-            catch(Exception ex)
-            {
-                writeErrorLog(ex);
-            }
-
-            Dictionary<string, string> UserRFIDPairs = new Dictionary<string, string>();
-            string[] pairs = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (string pair in pairs)
-            {
-                try //Dodge any out of range exceptions we don't really care about
-                {
-                    string Username = pair.Split(',')[0];
-                    string CardID = pair.Split(',')[1];
-                    //Store the Card ID as key and the username as value
-                    UserRFIDPairs.Add(CardID, Username);
-                }
-                catch { }
-            }
-
-            try
-            {
-                return UserRFIDPairs[RFIDTag];
-            }
-            catch
-            {
-                return "";
-            }
         }
 
         //Function that makes sure the read barcode is correct
@@ -315,7 +265,6 @@ namespace CoreClassLib
         public static void Print(string text)
         {
             PrintDocument p = new PrintDocument();
-
             //Print a header in bold
             p.PrintPage += delegate(object sender1, PrintPageEventArgs e1)
             {
@@ -336,6 +285,32 @@ namespace CoreClassLib
             catch (Exception ex)
             {
                 Core.writeErrorLog(ex);
+            }
+        }
+    }
+
+    public static class Misc
+    {
+        [DllImport("user32.dll")]
+        public static extern int FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(int hWnd, uint Msg, int wParam, int lParam);
+
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool PostMessage(int hWnd, uint Msg, int wParam, int lParam);
+
+        public static void KillExplorer()
+        {
+            try
+            {
+                int hwnd;
+                hwnd = FindWindow("Progman", null);
+                PostMessage(hwnd, /*WM_QUIT*/ 0x12, 0, 0);
+            }
+            catch
+            {
+
             }
         }
     }

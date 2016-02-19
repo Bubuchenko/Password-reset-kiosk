@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoreClassLib;
 
 namespace MSA_password_kiosk_software
 {
@@ -29,19 +31,7 @@ namespace MSA_password_kiosk_software
 
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
-            //Shortcuts to enter and leave fullscreen mode
-            if (e.Key == Key.Home)
-            {
-                this.WindowStyle = System.Windows.WindowStyle.None;
-                this.Topmost = true;
-                this.WindowState = System.Windows.WindowState.Maximized;
-            }
-            if (e.Key == Key.End)
-            {
-                this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
-                this.Topmost = false;
-                this.WindowState = System.Windows.WindowState.Normal;
-            }
+
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -50,6 +40,17 @@ namespace MSA_password_kiosk_software
 
         private void MainFrame_KeyDown(object sender, KeyEventArgs e)
         {
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Kill explorer, it's a kiosk. We don't want to give away the OS.
+            Misc.KillExplorer();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Process.Start("explorer.exe");
         }
     }
 }

@@ -33,13 +33,12 @@ namespace MSA_password_kiosk_software.Pages
             Input = input;
 
             //Set settings manually for debugging
-            Core.FinalScreenShowTime = 5;
+            Core.FinalScreenShowTime = 30;
             Core.BasePassword = "Welkom";
             Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
             Core.MaxResetLimit = true;
             Core.MaxResetCount = 5;
             Core.UserIDLength = 5;
-            Core.RFIDLength = 16;
             Core.RandomPassword = true;
             Core.UsePrinter = true;
 
@@ -53,9 +52,6 @@ namespace MSA_password_kiosk_software.Pages
             //Start the circle animation
             progressBar.AnimateCircleAngle(0, 100, 2);
 
-            //If it's an RFID card get the username first
-            if (input.Length == Core.RFIDLength)
-                input = await Core.GetUsernameFromRFID(input);
             var taskResult = await Task.Run(() => Core.ResetPassword(input, null));
 
             //var taskResult = await Task.Run(() => resetpassword());
