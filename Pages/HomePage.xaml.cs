@@ -81,10 +81,8 @@ namespace MSA_password_kiosk_software
                 {
                     //Avoid throwing error if it has to refresh but we're not on the current page
                 }
-                
             }
         }
-
 
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
         {

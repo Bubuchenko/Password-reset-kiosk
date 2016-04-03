@@ -31,17 +31,10 @@ namespace MSA_password_kiosk_software.Pages
             InitializeComponent();
 
             Input = input;
-
             //Set settings manually for debugging
-            Core.FinalScreenShowTime = 7;
-            Core.BasePassword = "Welkom";
-            Core.LDAP_URL = "LDAP://OU=MCO Leerlingen,OU=MCO,DC=MCO,DC=local";
-            Core.MaxResetLimit = true;
-            Core.MaxResetCount = 5;
             Core.UserIDLength = 5;
             Core.RandomPassword = true;
             Core.UsePrinter = true;
-
             //Hide the cursor
             Mouse.OverrideCursor = Cursors.None;
         }
@@ -51,10 +44,7 @@ namespace MSA_password_kiosk_software.Pages
         {
             //Start the circle animation
             progressBar.AnimateCircleAngle(0, 100, 2);
-
             var taskResult = await Task.Run(() => Core.ResetPassword(input, null));
-
-            //var taskResult = await Task.Run(() => resetpassword());
             progressBar.StopAnimations();
             DisplayResult(taskResult);
         }
@@ -95,14 +85,14 @@ namespace MSA_password_kiosk_software.Pages
                     resultLabel.Foreground = Brushes.Green;
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
-                case 4:
+                case 4: // No internet connection
                     progressBar.AnimateCircleColor(Colors.Red, 300);
                     progressBar.face.EmotionState = Controls.State.Sad;
                     resultLabel.Content = Texts.NoConnectErrorMessage;
                     resultLabel.Foreground = Brushes.Red;
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
-                case 5:
+                case 5: // Account disabled
                     progressBar.AnimateCircleColor(Colors.Orange, 300);
                     progressBar.face.EmotionState = Controls.State.Neutral;
                     resultLabel.Content = Texts.AccountDisabledMessage;
@@ -110,6 +100,7 @@ namespace MSA_password_kiosk_software.Pages
                     RoundProgressbar.FadeControlToOpacity(resultLabel, 1);
                     break;
             }
+            //Exit screen animation
             DisplayDisappearMessage();
         }
 

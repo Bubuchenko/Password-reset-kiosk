@@ -23,14 +23,13 @@ namespace CoreClassLib
         public static int UserIDLength { get; set; }
         public static int RFIDLength { get; set; }
         public static bool UsePrinter { get; set; }
-
         //Screen refresh in seconds
         public static int ScreenProtectionRefreshInterval = 3600;
 
         //Text files for storing configurations and usage activities
-        public static string ConfigFile = "config.ini";
-        public static string ErrorFile = "ErrorLog.txt";
-        public static string ActivityFile = "ActivityLog.txt";
+        public const string CONFIG_FILE = "config.ini";
+        public const string ERROR_FILE = "ErrorLog.txt";
+        public const string ACTIVITY_FILE = "ActivityLog.txt";
 
         //Password error scheme
         //Code 1 = User not found
@@ -209,7 +208,7 @@ namespace CoreClassLib
         {
             try
             {
-                File.AppendAllText(ActivityFile, getDateTime() + " >> " + msg + Environment.NewLine);
+                File.AppendAllText(ACTIVITY_FILE, getDateTime() + " >> " + msg + Environment.NewLine);
             }
             catch
             {
@@ -220,7 +219,7 @@ namespace CoreClassLib
         {
             try
             {
-                File.AppendAllText(ErrorFile, getDateTime() + " >> " + msg.ToString() + Environment.NewLine);
+                File.AppendAllText(ERROR_FILE, getDateTime() + " >> " + msg.ToString() + Environment.NewLine);
             }
             catch
             {
@@ -230,6 +229,43 @@ namespace CoreClassLib
         private static string getDateTime()
         {
             return DateTime.Now.ToString("G");
+        }
+
+        public static bool ReadConfigFile()
+        {
+            try
+            {
+                string[] settings = File.ReadAllLines(CONFIG_FILE);
+                foreach (string setting in settings)
+                {
+                    switch (setting.Split('=')[0])
+                    {
+                        case "LDAP":
+                            LDAP_URL = setting.Split('=')[1];
+                            break;
+                        case "BasePassword":
+                            BasePassword = setting.Split('=')[1];
+                            break;
+                        case "FinalScreenShowTime":
+                            FinalScreenShowTime = int.Parse(setting.Split('=')[1]);
+                            break;
+                        case "MaxResetLimit":
+                            MaxResetLimit = bool.Parse(setting.Split('=')[1]);
+                            break;
+                        case "MaxResetCount":
+                            MaxResetCount = int.Parse(setting.Split('=')[1]);
+                            break;
+                        case "ScreenProtectionRefreshInterval":
+                            ScreenProtectionRefreshInterval = int.Parse(setting.Split('=')[1]);
+                            break;
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 

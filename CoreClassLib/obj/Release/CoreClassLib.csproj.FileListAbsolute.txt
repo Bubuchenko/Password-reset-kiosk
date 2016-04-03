@@ -18,3 +18,8 @@ C:\Users\administrator\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreCla
 C:\Users\administrator\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.csprojResolveAssemblyReference.cache
 C:\Users\administrator\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
 C:\Users\administrator\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
+C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.csprojResolveAssemblyReference.cache
+C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
+C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
+C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.dll
+C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.pdb
