@@ -24,7 +24,7 @@ namespace CoreClassLib
         public static int RFIDLength { get; set; }
         public static bool UsePrinter { get; set; }
         //Screen refresh in seconds
-        public static int ScreenProtectionRefreshInterval = 3600;
+        public static int ScreenProtectionRefreshInterval { get; set; }
 
         //Text files for storing configurations and usage activities
         public const string CONFIG_FILE = "config.ini";
@@ -238,25 +238,28 @@ namespace CoreClassLib
                 string[] settings = File.ReadAllLines(CONFIG_FILE);
                 foreach (string setting in settings)
                 {
+
+                    string settingValue = setting.Substring(setting.IndexOf('=') + 1);
+
                     switch (setting.Split('=')[0])
                     {
                         case "LDAP":
-                            LDAP_URL = setting.Split('=')[1];
+                            LDAP_URL = settingValue;
                             break;
                         case "BasePassword":
-                            BasePassword = setting.Split('=')[1];
+                            BasePassword = settingValue;
                             break;
                         case "FinalScreenShowTime":
-                            FinalScreenShowTime = int.Parse(setting.Split('=')[1]);
+                            FinalScreenShowTime = int.Parse(settingValue);
                             break;
                         case "MaxResetLimit":
-                            MaxResetLimit = bool.Parse(setting.Split('=')[1]);
+                            MaxResetLimit = bool.Parse(settingValue);
                             break;
                         case "MaxResetCount":
-                            MaxResetCount = int.Parse(setting.Split('=')[1]);
+                            MaxResetCount = int.Parse(settingValue);
                             break;
                         case "ScreenProtectionRefreshInterval":
-                            ScreenProtectionRefreshInterval = int.Parse(setting.Split('=')[1]);
+                            ScreenProtectionRefreshInterval = int.Parse(settingValue);
                             break;
                     }
                 }

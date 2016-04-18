@@ -23,3 +23,8 @@ C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreC
 C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
 C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.dll
 C:\Users\Bubu Kirichenko\Documents\GitHubVisualStudio\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.pdb
+C:\Users\l.pijlman\Documents\Visual Studio 2015\Projects\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.dll
+C:\Users\l.pijlman\Documents\Visual Studio 2015\Projects\Password-reset-kiosk\CoreClassLib\bin\Release\CoreClassLib.pdb
+C:\Users\l.pijlman\Documents\Visual Studio 2015\Projects\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.csprojResolveAssemblyReference.cache
+C:\Users\l.pijlman\Documents\Visual Studio 2015\Projects\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.dll
+C:\Users\l.pijlman\Documents\Visual Studio 2015\Projects\Password-reset-kiosk\CoreClassLib\obj\Release\CoreClassLib.pdb
